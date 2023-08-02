@@ -13,6 +13,10 @@ public class Funcionario extends Pessoa{
         this.funcao = funcao;
     }
 
+    public String toString() {
+        return super.toString() + " | Salário: " + this.salario + " | Função: " + this.funcao;
+    }
+
     public BigDecimal getSalario() {
         return salario;
     }

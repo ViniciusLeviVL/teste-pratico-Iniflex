@@ -1,6 +1,7 @@
 package br.com.projedata.modelos;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public abstract class Pessoa {
     private String nome;
@@ -10,6 +11,11 @@ public abstract class Pessoa {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
     }
+
+    public String toString() {
+        return "Nome: " + this.nome + " | Data de Nascimento: " + this.dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
     public String getNome() {
         return nome;
     }

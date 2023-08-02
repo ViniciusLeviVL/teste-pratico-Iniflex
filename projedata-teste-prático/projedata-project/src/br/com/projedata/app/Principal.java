@@ -1,11 +1,11 @@
 package br.com.projedata.app;
 
 import br.com.projedata.modelos.Funcionario;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +34,7 @@ public class Principal {
         for (Funcionario funcionario : funcionarios ) {
             if (funcionario.getNome() == nome) {
                 funcionarios.remove(funcionarios.indexOf(funcionario)); 
-                System.out.println("O funcionário " + nome + " foi removido da lista de funcionários.");
+                System.out.println("\nO funcionário " + funcionario.getNome() + " foi removido da lista de funcionários.");
                 break;
             }
         }
@@ -44,18 +44,11 @@ public class Principal {
         • informação de data deve ser exibido no formato dd/mm/aaaa;
         • informação de valor numérico deve ser exibida no formatado com separador de milhar como ponto e decimal como vírgula.
         */
-        System.out.println("Lista de Funcionários:");
-        for (Funcionario funcionario : funcionarios) {
-            System.out.println("Nome: " + funcionario.getNome() +
-                    " | Data de Nascimento: " + funcionario.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) +
-                    " | Salário: " + separadorDeMilhar.format(funcionario.getSalario()) +
-                    " | Função: " + funcionario.getFuncao());
-        }
+        System.out.println("\nLista de Funcionários:");
+        funcionarios.forEach((funcionario) -> System.out.println(funcionario));
 
         // 3.4 - Os funcionários receberam 10% de aumento de salário, atualizar a lista de funcionários com novo valor.
-        for (Funcionario funcionario : funcionarios) {   
-            funcionario.setSalario(funcionario.getSalario().multiply(BigDecimal.valueOf(1.1)));
-        }
+        funcionarios.forEach((funcionario) -> funcionario.setSalario(funcionario.getSalario().multiply(BigDecimal.valueOf(1.1))));
 
         // 3.5 - Agrupar os funcionários por função em um MAP, sendo a chave a “função” e o valor a “lista de funcionários”.
         Map<String, List<Funcionario>> funcionariosPorFuncao = new HashMap<>();
@@ -70,9 +63,7 @@ public class Principal {
         for (String funcao : funcionariosPorFuncao.keySet()) {
             System.out.println("Função: " + funcao);
             List<Funcionario> funcionariosDaFuncao = funcionariosPorFuncao.get(funcao);
-            for (Funcionario funcionario : funcionariosDaFuncao) {
-                System.out.println("- " + funcionario.getNome());
-            }
+            funcionariosDaFuncao.forEach((funcionario) -> System.out.println("- " + funcionario.getNome()));
         }
 
         // 3.8 - Imprimir os funcionários que fazem aniversário no mês 10 e 12.
@@ -80,7 +71,7 @@ public class Principal {
         for (Funcionario funcionario : funcionarios) {
             int mesAniversario = funcionario.getDataNascimento().getMonthValue();
             if (mesAniversario == 10 || mesAniversario == 12) {
-                System.out.println(funcionario.getNome() + " - Data do aniversário: "  + funcionario.getDataNascimento().getDayOfMonth() + "/" + mesAniversario);
+                System.out.println(funcionario);
             }
         }
 
@@ -88,19 +79,15 @@ public class Principal {
         System.out.println("\nFuncionário com a maior idade:");
         Funcionario funcionarioMaisVelho = funcionarios.get(0);
         for (Funcionario funcionario : funcionarios) {
-            if (funcionario.getDataNascimento().isBefore(funcionarioMaisVelho.getDataNascimento())) {
-                funcionarioMaisVelho = funcionario;
-            }
+            funcionarioMaisVelho = funcionario.getDataNascimento().isBefore(funcionarioMaisVelho.getDataNascimento()) ? funcionario : funcionarioMaisVelho;
         }
-        int idadeFuncionarioMaiorIdade = LocalDate.now().getYear() - funcionarioMaisVelho.getDataNascimento().getYear();
-        System.out.println("Nome: " + funcionarioMaisVelho.getNome() + "\nIdade: " + idadeFuncionarioMaiorIdade + " anos");
+        int idadeDoFuncionarioMaisVelho = LocalDate.now().getYear() - funcionarioMaisVelho.getDataNascimento().getYear();
+        System.out.println("Nome: " + funcionarioMaisVelho.getNome() + "\nIdade: " + idadeDoFuncionarioMaisVelho + " anos");
 
         // 3.10 - Imprimir a lista de funcionários por ordem alfabética.
+        System.out.println("\nLista de funcionários ondenada alfabeticamente:");
         funcionarios.sort((p1, p2) -> p1.getNome().compareTo(p2.getNome()));
-
-        for (Funcionario funcionario : funcionarios) {
-            System.out.println(funcionario.getNome());
-        }
+        funcionarios.forEach((funcionario) -> System.out.println(funcionario));
 
         // 3.11 - Imprimir o total dos salários dos funcionários.
         System.out.println("\nTotal dos salários dos funcionários:");
